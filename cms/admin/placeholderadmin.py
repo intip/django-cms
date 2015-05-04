@@ -87,7 +87,8 @@ class FrontendEditableAdminMixin(object):
         # enabled
         form_class = self.get_form(request, obj, fields=fields)
         if not cancel_clicked and request.method == 'POST':
-            form = form_class(instance=obj, data=request.POST)
+            # Upload files doesn't work, pass parameter at init for form
+            form = form_class(request.POST, request.FILES, instance=obj)
             if form.is_valid():
                 form.save()
                 saved_successfully = True
@@ -110,6 +111,8 @@ class FrontendEditableAdminMixin(object):
             'save_as': False,
             'has_add_permission': False,
             'window_close_timeout': 10,
+            # FIXME - this should check if form or formsets have a FileField
+            'has_file_field': True,
         }
         if cancel_clicked:
             # cancel button was clicked

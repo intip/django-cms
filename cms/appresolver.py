@@ -38,6 +38,11 @@ def applications_page_check(request, current_page=None, path=None):
     for lang in get_language_list():
         if path.startswith(lang + "/"):
             path = path[len(lang + "/"):]
+
+    # Fix: start path with /
+    if path.startswith('/'):
+        path = path[1:]
+
     for resolver in APP_RESOLVERS:
         try:
             page_id = resolver.resolve_page_id(path)

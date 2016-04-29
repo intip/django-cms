@@ -310,7 +310,7 @@ class PageToolbar(CMSToolbar):
                 params['statics'] = ','.join(str(sp.pk) for sp in self.dirty_statics)
 
             if self.in_apphook():
-                params['redirect'] = self.request.path_info
+                params['redirect'] = self.request.path
 
             with force_language(self.current_lang):
                 url = admin_reverse('cms_page_publish_page', args=(pk, self.current_lang))
